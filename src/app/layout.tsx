@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import VisitBeacon from "@/components/VisitBeacon";
 import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
+import { ldJson } from "@/lib/site";
 
 const brico = Plus_Jakarta_Sans({ variable: "--font-brico", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
@@ -98,7 +99,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${brico.variable}`} suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }} />
         {children}
         <SiteFooter />
         <Analytics />

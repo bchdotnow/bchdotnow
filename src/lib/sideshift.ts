@@ -85,7 +85,10 @@ export async function ss<T>(
 /** The end user's IP, as SideShift requires for server-side integrations. */
 export function userIp(req: Request) {
   const h = req.headers;
-  const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "";
+  // Prefer the headers Vercel sets itself (a visitor can't fake them), so nobody can dodge SideShift's
+  // country check by sending their own X-Forwarded-For.
+  const ip =
+    h.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip")?.trim() || h.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
   // loopback and private ranges (local development) are not real visitor IPs; SideShift rejects them
   if (!ip || /^(::1|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|f[cd][0-9a-f]{2}:|::ffff:127\.)/i.test(ip)) return undefined;
   return ip;

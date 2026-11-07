@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Gallery from "@/components/art/Gallery";
 import { absolute, artFile, getCatalog, LICENSE } from "@/lib/art";
+import { ldJson } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { items } = await getCatalog();
@@ -35,7 +36,7 @@ export default async function ArtIndex() {
 
   return (
     <main className="art__main">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }} />
       <div className="art__intro">
         <h1>BCH.now media</h1>
         <p className="art__lead">

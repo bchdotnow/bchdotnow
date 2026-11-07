@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import ArtActions from "@/components/art/ArtActions";
 import MediaBadge from "@/components/art/MediaBadge";
 import { absolute, artFile, downloadsFor, fmtBytes, fmtDuration, getCatalog, LICENSE, linkLabel, related, TYPES } from "@/lib/art";
-import { SOCIAL } from "@/lib/site";
+import { SOCIAL, ldJson } from "@/lib/site";
 
 // Pieces in the catalog at build time are prerendered. Ones published later are rendered on
 // their first visit and cached from then on, so new art never needs a redeploy.
@@ -88,7 +88,7 @@ async function Piece({ params }: Pick<PageProps<"/media/[slug]">, "params">) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }} />
       <nav className="crumbs" aria-label="Breadcrumb">
         <Link href="/media">BCH.now media</Link>
         {cat && (

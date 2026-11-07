@@ -627,7 +627,11 @@ function DepositView({ shift, onNew }: { shift: Shift; onNew: () => void }) {
             </div>
           </div>
           <div className="xfield">
-            <span className="xfield__label">To this {shift.depositCoin} address</span>
+            <span className="xfield__label">
+              To this {shift.depositCoin} address
+              {/* coins on several networks (USDT, USDC): name the network right at the address, the costliest mistake */}
+              {(NETWORKS[shift.depositCoin]?.length ?? 0) > 1 && <b> on {nets(shift.depositCoin, shift.depositNetwork)} only</b>}
+            </span>
             <div className="xfield__row">
               <code className="xdep__addr">{shift.depositAddress}</code>
               <Copy text={shift.depositAddress} />
