@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
-import { ADDRESS, COINS, MEMO_NETWORKS, NETWORKS } from "@/lib/coins";
+import { ADDRESS, ADDRESS_EXAMPLE, COINS, MEMO_NETWORKS, NETWORKS } from "@/lib/coins";
 import { fmtUsd } from "@/lib/format";
 import { PARTNER } from "@/lib/site";
 import { WalletLink } from "./WalletDrawer";
@@ -483,13 +483,13 @@ export function ExchangeCard({
           <div className="xfield xfield--addr">
             <div className="xfield__top">
               <label htmlFor="xaddr">
-                Your {getSym} address{netLabel(getSym, getNet)}
+                Paste your {getSym} receiving address{netLabel(getSym, getNet)}
               </label>
             </div>
             <input autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} data-1p-ignore="true" data-lpignore="true" data-form-type="other"
               id="xaddr"
               className="xaddr"
-              placeholder={getSym === "BCH" ? "bitcoincash:q…" : `Paste your ${getSym} address`}
+              placeholder={ADDRESS_EXAMPLE[getNet] ?? `${getSym} address`}
               value={addr}
               onChange={(e) => setAddr(e.target.value)}
               onBlur={() => addr && setTouched(true)}

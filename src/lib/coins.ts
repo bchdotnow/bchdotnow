@@ -51,3 +51,18 @@ export const ADDRESS: Record<string, RegExp> = {
   doge: /^D[1-9A-HJ-NP-Za-km-z]{25,34}$/,
   ripple: /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/,
 };
+
+/** Greyed-out partial example shown as the address placeholder, per network. */
+export const ADDRESS_EXAMPLE: Record<string, string> = {
+  bitcoincash: "bitcoincash:qr7f…x9k2",
+  bitcoin: "bc1qxy2k…0wlh",
+  ethereum: "0x71C7…976F",
+  bsc: "0x71C7…976F",
+  base: "0x71C7…976F",
+  polygon: "0x71C7…976F",
+  tron: "TJYe…8yXb",
+  solana: "7EcD…FLtV",
+  litecoin: "ltc1qg8…9vlz",
+  doge: "DH5y…tLsQ",
+  ripple: "rEb8…4xHy",
+};

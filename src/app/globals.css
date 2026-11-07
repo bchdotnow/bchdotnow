@@ -737,9 +737,22 @@ input {
   color: var(--ink);
 }
 .xaddr {
-  font-size: var(--step-body) !important;
+  font-size: clamp(22px, 2vw, 28px) !important;
   letter-spacing: 0 !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  padding: 6px 0 !important;
+}
+.xfield--addr > .xfield__top label {
+  font-size: 12.5px;
+}
+.xaddr::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  opacity: 1;
+}
+.xaddr--memo {
+  font-size: var(--step-body) !important;
 }
 .xarrow {
   justify-self: center;
