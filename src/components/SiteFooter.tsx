@@ -8,12 +8,13 @@ export default function SiteFooter() {
       <nav className="sitefoot__nav" aria-label="Footer">
         <Link href="/">Swap</Link>
         <Link href="/media">Media</Link>
+        <Link href="/today">Today</Link>
         <Link href="/how-it-works">How it works</Link>
         <Link href="/faq">FAQ</Link>
-        <a href={SOCIAL.x} target="_blank" rel="noopener">
+        <a className="sitefoot__ext" href={SOCIAL.x} target="_blank" rel="noopener">
           X
         </a>
-        <a href={SOCIAL.github} target="_blank" rel="noopener">
+        <a className="sitefoot__ext" href={SOCIAL.github} target="_blank" rel="noopener">
           GitHub
         </a>
       </nav>

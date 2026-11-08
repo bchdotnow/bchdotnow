@@ -5,7 +5,7 @@ import { artFile, getCatalog } from "@/lib/art";
 
 // The share card for one piece: the whole artwork (never cropped) with its title, at the
 // 1200x630 size X, Discord, Telegram and others expect.
-export const alt = "A free piece from BCH.now media";
+export const alt = "A free piece from bch.now media";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -22,7 +22,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   ]);
   const a = catalog.items.find((x) => x.slug === slug);
   const src = a ? artFile(catalog.base, a, "web") : "";
-  const title = a?.title ?? "BCH.now media";
+  const title = a?.title ?? "bch.now media";
   const kind = a?.type === "animation" ? "GIF" : a?.type === "video" ? "VIDEO" : "";
   // fit the piece inside the square box, keeping its shape
   const scale = a ? Math.min(ART / a.width, ART / a.height) : 1;
@@ -43,7 +43,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         </div>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: ART, marginLeft: 56, flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>BCH.now media</div>
+            <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>bch.now media</div>
             {kind && (
               <div style={{ display: "flex", background: INK, color: GREEN, fontSize: 20, fontWeight: 800, letterSpacing: "0.06em", padding: "4px 12px", borderRadius: 999 }}>
                 {kind}

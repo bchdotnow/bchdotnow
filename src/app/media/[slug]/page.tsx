@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/media/[slug]">): 
   // share cards show ~125 characters; the 1200x630 card image comes from ./opengraph-image.tsx
   const share = a.description.length <= 125 ? a.description : `${a.description.slice(0, 122).replace(/s+S*$/, "")}…`;
   return {
-    title: `${a.title}: BCH.now media`,
+    title: `${a.title}: bch.now media`,
     description: `${a.description} Free to download and use under ${LICENSE.name}.`,
     keywords: a.tags,
     alternates: { canonical: `/media/${a.slug}` },
@@ -90,7 +90,7 @@ async function Piece({ params }: Pick<PageProps<"/media/[slug]">, "params">) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }} />
       <nav className="crumbs" aria-label="Breadcrumb">
-        <Link href="/media">BCH.now media</Link>
+        <Link href="/media">bch.now media</Link>
         {cat && (
           <>
             <span aria-hidden="true">/</span>

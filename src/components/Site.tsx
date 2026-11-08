@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { Market, Sourced } from "@/lib/types";
-import { sponsor, SPONSOR_CONTACT } from "@/lib/sponsor";
+import Sponsor from "./Sponsor";
 import { ExchangeCard, useRates } from "./Exchange";
 import StatTicker from "./StatTicker";
 import WalletDrawer from "./WalletDrawer";
@@ -156,7 +156,7 @@ export default function Site({ below }: { below?: ReactNode }) {
                 <strong className="pricebox__num">{priceLine}</strong>
                 {Number.isFinite(chg) && (
                   <span className={`pricebox__chg ${chg >= 0 ? "is-up" : "is-down"}`}>
-                    {fmtPct(chg)} today
+                    {fmtPct(chg)} in 24h
                   </span>
                 )}
               </span>
@@ -175,50 +175,12 @@ export default function Site({ below }: { below?: ReactNode }) {
 
         <p className="hero__legal">Not financial advice. We never hold your coins or keys. Prices from CoinGecko.</p>
 
-        <div className="hero__sponsor" id="sponsor">
-          {sponsor.active ? (
-            <a href={sponsor.url} target="_blank" rel="sponsored noopener" className="hero__sponsor-live">
-              bch.now is supported by <strong>{sponsor.name}</strong>
-            </a>
-          ) : (
-            <SponsorForm />
-          )}
-        </div>
+        <Sponsor />
       </section>
 
       {below}
 
       <WalletDrawer open={walletOpen} setOpen={setWalletOpen} />
     </main>
-  );
-}
-
-function SponsorForm() {
-  const [name, setName] = useState("");
-  return (
-    <form
-      autoComplete="off"
-      className="blank"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const subject = encodeURIComponent(`bch.now sponsorship: ${name || "my project"}`);
-        window.location.href = `mailto:sponsor@bch.now?subject=${subject}`;
-      }}
-    >
-      <p className="blank__tag">Sponsorship</p>
-      <h2 id="cta-h" className="blank__sentence">
-        Put{" "}
-        <label htmlFor="sponsor-name" className="sr-only">
-          Your project
-        </label>
-        <input autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} data-1p-ignore="true" data-lpignore="true" data-form-type="other" id="sponsor-name" placeholder="your project" value={name} onChange={(e) => setName(e.target.value)} /> at the
-        front of bch.now. <button type="submit">Enquire</button>
-      </h2>
-      <p className="blank__after">
-        <span>
-          Enquiries: <a href={SPONSOR_CONTACT}>sponsor@bch.now</a>
-        </span>
-      </p>
-    </form>
   );
 }

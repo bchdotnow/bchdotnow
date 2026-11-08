@@ -16,11 +16,14 @@ export const metadata: Metadata = {
 // SideShift's default affiliate commission applies when none is configured.
 const pct = (r: number) => `${(r * 100).toFixed(2).replace(/\.?0+$/, "")}%`;
 
+/** "a, b and c" */
+const andList = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
+
 type Faq = { q: string; a: string[]; more?: { href: string; label: string } };
 
 function faqs(rate: string): Faq[] {
-  const coins = COINS.map((c) => `${c.name} (${c.sym})`).join(", ");
-  const wallets = WALLETS.map((w) => w.n).join(", ");
+  const coins = andList(COINS.map((c) => (c.name === c.sym ? c.name : `${c.name} (${c.sym})`)));
+  const wallets = andList(WALLETS.map((w) => w.n));
   const p = PARTNER.name;
   return [
     {

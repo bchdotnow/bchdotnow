@@ -75,7 +75,7 @@ export default function HowItWorks() {
             We never keep your addresses.
           </li>
           <li>
-            <b>Media downloads.</b> When you download or copy something from <Link href="/media">BCH.now media</Link>, we add one to
+            <b>Media downloads.</b> When you download or copy something from <Link href="/media">bch.now media</Link>, we add one to
             that piece&apos;s count and to the count for the format you picked (PNG, GIF, MP4…). Just the number: nothing about who
             downloaded it.
           </li>

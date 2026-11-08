@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { artFile, getCatalog } from "@/lib/art";
 
 // The share card for bch.now/media: the headline plus the newest pieces.
-export const alt = "BCH.now media: free Bitcoin Cash images, GIFs and videos";
+export const alt = "bch.now media: free Bitcoin Cash images, GIFs and videos";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

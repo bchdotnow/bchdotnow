@@ -1,0 +1,289 @@
+/* ================= BCH today (/today) ================= */
+.tday {
+  min-height: 100vh;
+  padding-top: 20px; /* same as the homepage, so the header doesn't jump between pages */
+}
+.tday__body {
+  max-width: 1120px;
+  margin: clamp(36px, 6vw, 80px) auto 0;
+  display: grid;
+  gap: clamp(16px, 2vw, 22px);
+}
+
+/* hero: the homepage's sticker, saying "today" */
+.tday__hero {
+  margin-bottom: clamp(8px, 2vw, 20px);
+}
+.tday__hero h1 {
+  font-size: clamp(3rem, 1.6rem + 6vw, 7.2rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+.tday__sticker {
+  display: inline-block;
+  font-size: 0.62em;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  padding: 0.04em 0.26em 0.14em;
+  border-radius: 0.24em;
+  background: var(--ink);
+  color: var(--green);
+  rotate: -3deg;
+  vertical-align: 0.12em;
+  margin-left: 0.06em;
+}
+.tday__lead {
+  max-width: 40ch;
+  text-wrap: balance;
+  margin-top: 18px;
+  font-size: var(--step-lead);
+  line-height: 1.3;
+  font-weight: 600;
+}
+.tday__when {
+  font-size: var(--step-small);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.tday__down {
+  padding: 28px;
+  border-radius: var(--r-l);
+  background: rgb(4 20 14 / 0.08);
+  font-weight: 600;
+}
+
+/* source links: small, plain, always there */
+.tday__src {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  justify-self: start;
+  font-size: var(--step-small);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.tday__src:hover {
+  text-decoration-thickness: 2.5px;
+}
+
+/* price: the ink card, chart beside it */
+.tday__price {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  grid-template-areas: "head chart" "foot foot";
+  gap: 18px 40px;
+  align-items: center;
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: var(--r-l);
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.tday__pricehead {
+  grid-area: head;
+  display: grid;
+  gap: 6px;
+}
+.tday__price h2,
+.tday__card h2,
+.tday__kicker {
+  font-size: var(--step-small);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tday__price h2 {
+  color: var(--on-ink-soft);
+}
+.tday__big {
+  font-size: clamp(3.4rem, 2rem + 5vw, 6.4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+.tday__chg {
+  justify-self: start;
+  padding: 4px 12px 5px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: var(--step-small);
+  font-weight: 700;
+}
+.tday__chg.is-up {
+  color: var(--green);
+}
+.tday__chg.is-down {
+  color: var(--down);
+}
+.tday__spark {
+  grid-area: chart;
+  width: 100%;
+  height: clamp(110px, 14vw, 180px);
+  overflow: visible;
+}
+.tday__area {
+  fill: var(--green);
+  opacity: 0.1;
+}
+.tday__line {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.tday__dot {
+  fill: var(--green);
+}
+.tday__pricefoot {
+  grid-area: foot;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--edge);
+  font-size: var(--step-small);
+  color: var(--on-ink-soft);
+}
+.tday__pricefoot .tday__src {
+  margin-left: auto;
+  color: var(--on-ink);
+}
+
+/* the network: two light tiles */
+.tday__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: inherit;
+}
+.tday__card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: clamp(20px, 2.4vw, 28px);
+  border-radius: var(--r-l);
+  background: rgb(4 20 14 / 0.08);
+}
+.tday__card p:not(.tday__num) {
+  line-height: 1.45;
+}
+.tday__num {
+  font-size: clamp(2.6rem, 1.8rem + 2.4vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tday__card .tday__src {
+  margin-top: 6px;
+}
+
+/* one big transfer: a white band, the one place the page gets loud */
+.tday__feature {
+  display: grid;
+  gap: 12px;
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--r-l);
+  background: var(--white);
+}
+.tday__kicker {
+  color: var(--green-deep);
+}
+.tday__feature h2 {
+  font-size: clamp(2.4rem, 1.4rem + 4vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.tday__fee {
+  color: var(--green-deep);
+}
+.tday__feature p:not(.tday__kicker) {
+  max-width: 62ch;
+  line-height: 1.5;
+}
+
+/* how it's counted */
+.tday__how {
+  margin-top: clamp(20px, 4vw, 44px);
+  max-width: 66ch;
+}
+.tday__how h2 {
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.tday__how li {
+  padding-left: 1.1em;
+  position: relative;
+  line-height: 1.5;
+}
+.tday__how li + li {
+  margin-top: 8px;
+}
+.tday__how li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.tday__how a {
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.tday__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin: clamp(24px, 4vw, 48px) 0 clamp(8px, 2vw, 24px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 2px solid rgb(4 20 14 / 0.14);
+}
+.tday__cta p {
+  font-size: var(--step-lead);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tday__cta div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tday__ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.tday__ghost:hover {
+  background: rgb(4 20 14 / 0.08);
+}
+
+@media (max-width: 860px) {
+  .tday__price {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "chart" "foot";
+  }
+  .tday__grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .tday__pricefoot .tday__src {
+    margin-left: 0;
+  }
+  .tday__feature h2 span {
+    display: block;
+  }
+}
+

@@ -16,7 +16,7 @@ export default function SiteHeader({
   className = "sitetop",
   children,
 }: {
-  active: "swap" | "art";
+  active: "swap" | "art" | "today";
   onWallet?: () => void;
   className?: string;
   children?: ReactNode;
