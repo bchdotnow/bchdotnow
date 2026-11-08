@@ -21,7 +21,7 @@ export default async function ArtStrip() {
       <Link href={`/media/${a.slug}`} className="artstrip__card" tabIndex={copy ? -1 : undefined}>
         <span className="artstrip__media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={artFile(base, a, "thumb")} alt={copy ? "" : a.alt} width={480} height={480} loading="lazy" decoding="async" />
+          <img src={artFile(base, a, "thumb")} alt={a.alt} width={480} height={480} loading="lazy" decoding="async" />
           <MediaBadge a={a} />
         </span>
         <span className="artstrip__title">{a.title}</span>
@@ -42,7 +42,7 @@ export default async function ArtStrip() {
       <div className="artstrip__rail">
         <ul className="artstrip__track" style={drift ? { ["--dur" as string]: `${latest.length * 5}s` } : undefined}>
           {latest.map((a, i) => card(a, `a${i}`, false))}
-          {/* the loop needs the set three times to wrap seamlessly on wide screens; copies are hidden from assistive tech */}
+          {/* the loop needs the set three times to wrap seamlessly on wide screens; copies are aria-hidden, so their alt text is never read twice */}
           {drift && latest.map((a, i) => card(a, `b${i}`, true))}
           {drift && latest.map((a, i) => card(a, `c${i}`, true))}
         </ul>

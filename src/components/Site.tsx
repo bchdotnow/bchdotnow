@@ -126,7 +126,7 @@ export default function Site({ below }: { below?: ReactNode }) {
 
         <div className="hero__grid">
           <div className="hero__left">
-            <h1 id="hero-h" className="lines hero__h" aria-label="I want BCH.now">
+            <h1 id="hero-h" className="lines hero__h" aria-label="I want BCH.now: get Bitcoin Cash with BTC, ETH or USDT">
               <span className="line">
                 <span data-line style={{ ["--i" as string]: 0 }}>
                   <WantSticker />
@@ -138,6 +138,8 @@ export default function Site({ below }: { below?: ReactNode }) {
                   <NewBadge />
                 </span>
               </span>
+              {/* the full heading as text; the sticker above is decorative */}
+              <span className="sr-only">: get Bitcoin Cash with BTC, ETH or USDT</span>
             </h1>
             <div className="pricebox" aria-live="polite">
               <span className="pricebox__head">

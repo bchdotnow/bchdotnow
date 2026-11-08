@@ -9,6 +9,7 @@ export default function SiteFooter() {
         <Link href="/">Swap</Link>
         <Link href="/media">Media</Link>
         <Link href="/how-it-works">How it works</Link>
+        <Link href="/faq">FAQ</Link>
         <a href={SOCIAL.x} target="_blank" rel="noopener">
           X
         </a>

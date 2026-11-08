@@ -4,7 +4,6 @@ import { reconcile, volumeStats } from "@/lib/volume";
 import { visitStats } from "@/lib/visits";
 import { commissionRate } from "@/lib/sideshift";
 
-// Private stats page: https://bch.now/stats?key=STATS_KEY
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const usd = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
