@@ -91,15 +91,26 @@ function Numbers({ t }: { t: Today }) {
         </div>
       </section>
 
-      {t.big && (
-        <section className="tday__feature" aria-labelledby="tday-big">
-          <p className="tday__kicker">One transaction today</p>
-          <h2 id="tday-big">
-            <span>{fmtUsdCompact(t.big.sentUsd)} moved.</span>
-            {t.big.feeUsd != null && <span className="tday__fee"> Fee: {fmtFee(t.big.feeUsd)}.</span>}
+      {t.movedUsd != null && t.feesUsd != null && (
+        <section className="tday__feature" aria-labelledby="tday-net">
+          <p className="tday__kicker">The whole network, last 24 hours</p>
+          <h2 id="tday-net">
+            <span>{fmtUsdCompact(t.movedUsd)} moved.</span>
+            <span className="tday__fee"> {fmtUsd(t.feesUsd, t.feesUsd >= 100 ? 0 : 2)} in fees.</span>
           </h2>
-          <p>{fmtInt(Math.round(t.big.sentBch))} BCH to one address.</p>
-          <Src href={SOURCES.tx(t.big.hash)}>See the transaction on Blockchair</Src>
+          <p>That&apos;s about {fmtUsd((t.feesUsd / t.movedUsd) * 1e6)} in fees for every $1 million moved.</p>
+          <Src href={SOURCES.stats}>Blockchair</Src>
+        </section>
+      )}
+
+      {t.big && (
+        <section className="tday__card tday__largest" aria-labelledby="tday-big">
+          <h2 id="tday-big">Largest transaction</h2>
+          <p className="tday__num">
+            {fmtUsdCompact(t.big.sentUsd)}
+            {t.big.feeUsd != null && <span className="tday__numfee"> for a {fmtFee(t.big.feeUsd)} fee</span>}
+          </p>
+          <p>{fmtInt(Math.round(t.big.sentBch))} BCH moved to one address in the last 24 hours.</p>
         </section>
       )}
     </>
@@ -136,6 +147,9 @@ export default async function TodayPage() {
               <b>Transactions and fees:</b> <a href={SOURCES.stats}>Blockchair</a>, counted over the last 24 hours, not since midnight.
             </li>
             <li>
+              <b>Value moved</b> adds up every transaction output, including change going back to the sender.
+            </li>
+            <li>
               <b>Fees are shown in US dollars,</b> as Blockchair reports them.
             </li>
             <li>
@@ -145,7 +159,7 @@ export default async function TodayPage() {
         </section>
 
         <section className="tday__cta">
-          <p>Get these numbers on X every day.</p>
+          <p>More Bitcoin Cash on X.</p>
           <div>
             <a className="btn btn--solid" href={SOCIAL.x} target="_blank" rel="noopener">
               Follow {SOCIAL.xHandle}

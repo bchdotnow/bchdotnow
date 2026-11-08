@@ -287,3 +287,16 @@
   }
 }
 
+
+/* largest transaction: a quiet card under the network band */
+.tday__largest .tday__num {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.35em;
+}
+.tday__numfee {
+  font-size: 0.42em;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}

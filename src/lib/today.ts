@@ -15,15 +15,21 @@ export type Today = {
   volume24hUsd: number | null;
   tx24h: number;
   medianFeeUsd: number;
+  /** Total of every transaction output in 24h (change included, so it's "moved", not "paid"), in USD at today's price. */
+  movedUsd: number | null;
+  /** All fees paid in 24h: average fee × number of transactions. */
+  feesUsd: number | null;
   spark: number[]; // price over the last 24 hours, oldest first
   priceSource: "CoinGecko" | "Blockchair";
   /** One big transfer: its largest single output to an address that didn't pay into it. */
-  big: { hash: string; sentUsd: number; sentBch: number; feeUsd: number | null } | null;
+  big: { sentUsd: number; sentBch: number; feeUsd: number | null } | null;
 };
 
 type ChainStats = {
   data: {
     transactions_24h: number;
+    volume_24h: number; // satoshis
+    average_transaction_fee_usd_24h: number;
     median_transaction_fee_usd_24h: number;
     market_price_usd: number;
     market_price_usd_change_24h_percentage: number;
@@ -56,7 +62,6 @@ async function bigTransfer(hash: string): Promise<Today["big"]> {
   const top = d.outputs.filter((o) => !from.has(o.recipient)).sort((a, b) => b.value - a.value)[0];
   if (!top || !(top.value_usd > 0)) return null; // everything went back to the sender: nothing moved
   return {
-    hash,
     sentUsd: top.value_usd,
     sentBch: top.value / 1e8,
     feeUsd: Number.isFinite(d.transaction.fee_usd) ? d.transaction.fee_usd : null,
@@ -79,16 +84,21 @@ export async function getToday(): Promise<Today | null> {
     const spark = chart.status === "fulfilled" ? chart.value.prices.map((p) => p[1]).filter(Number.isFinite) : [];
     const hash = c.largest_transaction_24h?.hash;
     const big = hash ? await bigTransfer(hash).catch(() => null) : null;
+    const priceUsd = g?.usd ?? c.market_price_usd;
+    const movedUsd = c.volume_24h > 0 ? (c.volume_24h / 1e8) * priceUsd : null;
+    const feesUsd = c.average_transaction_fee_usd_24h > 0 ? c.average_transaction_fee_usd_24h * c.transactions_24h : null;
 
     cacheLife({ stale: 60, revalidate: 120, expire: 60 * 60 });
     return {
       at: new Date().toISOString(),
-      priceUsd: g?.usd ?? c.market_price_usd,
+      priceUsd,
       change24h: g?.usd_24h_change ?? c.market_price_usd_change_24h_percentage ?? null,
       marketCapUsd: g?.usd_market_cap ?? c.market_cap_usd ?? null,
       volume24hUsd: g?.usd_24h_vol ?? null,
       tx24h: c.transactions_24h,
       medianFeeUsd: c.median_transaction_fee_usd_24h,
+      movedUsd,
+      feesUsd,
       spark: spark.length > 2 ? spark : [],
       priceSource: g ? "CoinGecko" : "Blockchair",
       big,
@@ -102,7 +112,6 @@ export async function getToday(): Promise<Today | null> {
 
 export const SOURCES = {
   stats: "https://blockchair.com/bitcoin-cash",
-  tx: (hash: string) => `https://blockchair.com/bitcoin-cash/transaction/${hash}`,
   price: "https://www.coingecko.com/en/coins/bitcoin-cash",
 };
 
