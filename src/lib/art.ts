@@ -9,12 +9,13 @@ import type { Art, Catalog, Category, Style } from "./art-shared";
 export * from "./art-shared";
 
 export const ART_TAG = "art";
-const EMPTY: Catalog = { base: "", categories: [], styles: [], items: [] };
+const EMPTY: Catalog = { base: "", categories: [], styles: [], items: [], redirects: {} };
 
 type Raw = {
   base?: string;
   taxonomy?: { categories?: Category[]; styles?: Style[] };
   items?: (Omit<Art, "type" | "files"> & Partial<Pick<Art, "type" | "files">> & { source?: string })[];
+  redirects?: Record<string, string>;
 };
 
 function shape(raw: Raw): Catalog {
@@ -25,6 +26,7 @@ function shape(raw: Raw): Catalog {
     // older entries predate GIF/video support: they're images with a PNG and a JPG
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     items: (raw.items ?? []).map(({ source, ...a }) => ({ ...a, type: a.type ?? "image", files: a.files ?? { png: 0, jpg: 0 } })),
+    redirects: Object.fromEntries(Object.entries(raw.redirects ?? {}).filter(([k, v]) => typeof k === "string" && typeof v === "string")),
   };
 }
 

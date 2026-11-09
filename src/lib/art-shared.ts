@@ -23,7 +23,8 @@ export type Art = {
 };
 export type Category = { id: string; label: string; blurb: string };
 export type Style = { id: string; label: string };
-export type Catalog = { base: string; categories: Category[]; styles: Style[]; items: Art[] };
+// redirects: old slug -> current slug, for pieces renamed after they went live
+export type Catalog = { base: string; categories: Category[]; styles: Style[]; items: Art[]; redirects: Record<string, string> };
 
 export const LICENSE = {
   name: "CC BY 4.0",

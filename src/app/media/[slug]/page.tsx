@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
 import ArtActions from "@/components/art/ArtActions";
 import MediaBadge from "@/components/art/MediaBadge";
@@ -16,9 +16,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/media/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const { base, items } = await getCatalog();
+  const { base, items, redirects } = await getCatalog();
   const a = items.find((x) => x.slug === slug);
-  if (!a) return { title: "Not found", robots: { index: false } };
+  if (!a) {
+    // a piece renamed after it went live: its old address moves to the new one
+    if (redirects[slug]) permanentRedirect(`/media/${redirects[slug]}`);
+    return { title: "Not found", robots: { index: false } };
+  }
   // share cards show ~125 characters; the 1200x630 card image comes from ./opengraph-image.tsx
   const share = a.description.length <= 125 ? a.description : `${a.description.slice(0, 122).replace(/s+S*$/, "")}…`;
   return {
@@ -54,9 +58,12 @@ export default function ArtPage({ params }: PageProps<"/media/[slug]">) {
 
 async function Piece({ params }: Pick<PageProps<"/media/[slug]">, "params">) {
   const { slug } = await params;
-  const { base, items, categories, styles } = await getCatalog();
+  const { base, items, categories, styles, redirects } = await getCatalog();
   const a = items.find((x) => x.slug === slug);
-  if (!a) notFound();
+  if (!a) {
+    if (redirects[slug]) permanentRedirect(`/media/${redirects[slug]}`);
+    notFound();
+  }
   const cat = categories.find((c) => c.id === a.category);
   const style = styles.find((s) => s.id === a.style);
   const more = related(items, a);
