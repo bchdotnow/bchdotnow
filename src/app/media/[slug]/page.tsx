@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: PageProps<"/media/[slug]">): 
   // share cards show ~125 characters; the 1200x630 card image comes from ./opengraph-image.tsx
   const share = a.description.length <= 125 ? a.description : `${a.description.slice(0, 122).replace(/s+S*$/, "")}…`;
   return {
-    title: `${a.title}: bch.now media`,
+    // absolute: the site template would add a second "| bch.now"
+    title: { absolute: `${a.title} | bch.now media` },
     description: `${a.description} Free to download and use under ${LICENSE.name}.`,
     keywords: a.tags,
     alternates: { canonical: `/media/${a.slug}` },

@@ -5,7 +5,17 @@ import { ldJson } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { items } = await getCatalog();
-  const description = `${items.length} free Bitcoin Cash images: street art, posters, memes and BCH price tags. Download in full size and use them anywhere, free under ${LICENSE.name}.`;
+  // count each kind, so the description matches what's there: "30 free Bitcoin Cash images, 4 GIFs and 3 videos"
+  const n = (t: string) => items.filter((a) => a.type === t).length;
+  const kinds = [
+    [n("image"), "image", "images"],
+    [n("animation"), "GIF", "GIFs"],
+    [n("video"), "video", "videos"],
+  ]
+    .filter(([c]) => Number(c) > 0)
+    .map(([c, one, many]) => `${c} ${c === 1 ? one : many}`);
+  const counted = kinds.length > 1 ? `${kinds.slice(0, -1).join(", ")} and ${kinds.at(-1)}` : (kinds[0] ?? "images");
+  const description = `Free Bitcoin Cash media: ${counted} of street art, posters, memes and BCH price tags. Download in full size and use them anywhere, free under ${LICENSE.name}.`;
   // share cards show ~125 characters; the card image comes from ./opengraph-image.tsx
   const share = "Free Bitcoin Cash images, GIFs and videos. Download, post and remix them, free under CC BY 4.0.";
   return {
