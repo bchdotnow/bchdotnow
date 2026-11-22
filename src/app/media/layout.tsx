@@ -21,7 +21,7 @@ export default function ArtLayout({ children }: LayoutProps<"/media">) {
         <h2 id="license-h">Use our media for anything</h2>
         <p>
           Every piece here is free under <a href={LICENSE.url}>{LICENSE.name}</a>. Post it, print it, put it on a sticker, a slide or a
-          T-shirt, remix it, even sell it. The one ask: credit <b>{LICENSE.credit}</b>, and keep the bch.now badge on.
+          T-shirt, remix it, even sell it. The one ask: credit <b>{LICENSE.credit}</b>. Leaving the bch.now badge on counts as credit.
         </p>
         <p>
           Made something with it? Tag <a href={SOCIAL.x}>{SOCIAL.xHandle}</a> on X and we&apos;ll share it.

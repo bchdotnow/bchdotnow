@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Sponsor from "@/components/Sponsor";
-import { fmtInt, fmtPct, fmtUsd, fmtUsdCompact } from "@/lib/format";
+import { fmtBch, fmtInt, fmtPct, fmtUsd, fmtUsdCompact, SATS } from "@/lib/format";
 import { SOCIAL } from "@/lib/site";
 import { fmtFee, getToday, SOURCES, type Today } from "@/lib/today";
 import "./today.css";
@@ -98,19 +98,22 @@ function Numbers({ t }: { t: Today }) {
             <span>{fmtUsdCompact(t.movedUsd)} moved.</span>
             <span className="tday__fee"> {fmtUsd(t.feesUsd, t.feesUsd >= 100 ? 0 : 2)} in fees.</span>
           </h2>
-          <p>That&apos;s about {fmtUsd((t.feesUsd / t.movedUsd) * 1e6)} in fees for every $1 million moved.</p>
+          <p>
+            That&apos;s about {fmtUsd((t.feesUsd / t.movedUsd) * 1e6)} in fees for every $1 million moved. &ldquo;Moved&rdquo; counts every
+            transaction output, change included, so it&apos;s more than was actually paid to others.
+          </p>
           <Src href={SOURCES.stats}>Blockchair</Src>
         </section>
       )}
 
       {t.big && (
         <section className="tday__card tday__largest" aria-labelledby="tday-big">
-          <h2 id="tday-big">Largest transaction</h2>
+          <h2 id="tday-big">Largest transfer</h2>
           <p className="tday__num">
             {fmtUsdCompact(t.big.sentUsd)}
             {t.big.feeUsd != null && <span className="tday__numfee"> for a {fmtFee(t.big.feeUsd)} fee</span>}
           </p>
-          <p>{fmtInt(Math.round(t.big.sentBch))} BCH moved to one address in the last 24 hours.</p>
+          <p>{fmtBch(t.big.sentBch * SATS, t.big.sentBch >= 100 ? 0 : 2)} moved to one address in the last 24 hours.</p>
         </section>
       )}
     </>
