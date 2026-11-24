@@ -18,6 +18,9 @@ export async function GET(req: Request) {
   for (let i = 0; i < 30; i++) days.push(new Date(Date.now() - i * 86400_000).toISOString().slice(0, 10));
   const [v, w] = await Promise.all([volumeStats(), visitStats()]);
   const rate = commissionRate() ?? 0.005;
+  // the same numbers as data, for the owner's studio dashboard (same key, nothing extra exposed)
+  if (new URL(req.url).searchParams.get("format") === "json")
+    return Response.json({ at: new Date().toISOString(), visits: w, volume: v, commissionRate: rate }, { headers: { "cache-control": "no-store" } });
   const num = (n: number) => n.toLocaleString("en-US");
   const month = days[0].slice(0, 7);
   const monthName = new Date(`${month}-01T00:00:00Z`).toLocaleString("en-US", { month: "long", timeZone: "UTC" });
