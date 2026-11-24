@@ -2631,6 +2631,39 @@ body {
 .xcopy:hover {
   background: var(--green-2);
 }
+.xcopies {
+  flex: none;
+  display: inline-flex;
+  gap: 6px;
+}
+.xcopy--ghost {
+  background: transparent;
+  color: var(--on-ink);
+  outline: 1.5px solid var(--edge);
+  outline-offset: -1.5px;
+}
+.xcopy--ghost:hover {
+  background: var(--surface-2);
+}
+.xcopy--sm {
+  height: 28px;
+  padding: 0 10px;
+  margin-left: 10px;
+  font-size: 13px;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+@media (max-width: 560px) {
+  .xdep__row {
+    flex-wrap: wrap;
+  }
+  .xdep__row .xcopies {
+    width: 100%;
+  }
+  .xdep__row .xcopies .xcopy {
+    flex: 1;
+  }
+}
 @media (max-width: 860px) {
   .xdep {
     grid-template-columns: 1fr;

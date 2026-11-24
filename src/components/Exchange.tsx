@@ -163,11 +163,11 @@ function NetworkSelect({ sym, value, onChange }: { sym: string; value: string; o
   );
 }
 
-function Copy({ text }: { text: string }) {
+function Copy({ text, label = "Copy", className = "" }: { text: string; label?: string; className?: string }) {
   const [done, setDone] = useState(false);
   return (
     <button
-      className="xcopy"
+      className={`xcopy ${className}`.trim()}
       onClick={() => {
         navigator.clipboard?.writeText(text).then(() => {
           setDone(true);
@@ -175,7 +175,7 @@ function Copy({ text }: { text: string }) {
         });
       }}
     >
-      {done ? "Copied" : "Copy"}
+      {done ? "Copied" : label}
     </button>
   );
 }
@@ -563,14 +563,15 @@ function DepositView({ shift, onNew }: { shift: Shift; onNew: () => void }) {
   const left = now ? (Date.parse(shift.expiresAt) - now) / 1000 : NaN;
   const elapsed = now && shift.createdAt ? (now - Date.parse(shift.createdAt)) / 1000 : NaN;
 
+  // Payment link with the amount in it, so a wallet fills in both (used by the QR and the copy button).
+  const scheme = URI_SCHEME[shift.depositCoin];
+  const payUri = scheme && sendAmount ? `${scheme}:${shift.depositAddress.replace(/^[a-z]+:/i, "")}?amount=${sendAmount}` : "";
+
   useEffect(() => {
-    const scheme = URI_SCHEME[shift.depositCoin];
-    const bare = shift.depositAddress.replace(/^[a-z]+:/i, "");
-    const text = scheme && sendAmount ? `${scheme}:${bare}?amount=${sendAmount}` : shift.depositAddress;
-    QRCode.toDataURL(text, { margin: 1, width: 360, color: { dark: "#04140e", light: "#ffffff" } })
+    QRCode.toDataURL(payUri || shift.depositAddress, { margin: 1, width: 360, color: { dark: "#04140e", light: "#ffffff" } })
       .then(setQr)
       .catch(() => setQr(""));
-  }, [shift.depositAddress, shift.depositCoin, sendAmount]);
+  }, [payUri, shift.depositAddress]);
 
   const progress = done ? 100 : stopped ? 100 : ((st.step - 1) / (STAGES.length - 1)) * 100;
 
@@ -618,6 +619,7 @@ function DepositView({ shift, onNew }: { shift: Shift; onNew: () => void }) {
               <p className="xdep__label">Send exactly</p>
               <p className="xdep__amt">
                 {sendAmount} <span>{shift.depositCoin}</span>
+                {sendAmount && <Copy text={sendAmount} label="Copy amount" className="xcopy--sm" />}
               </p>
               <p className="xdep__net">
                 on {nets(shift.depositCoin, shift.depositNetwork)} · you get {shift.settleAmount ? "" : "about "}
@@ -632,9 +634,17 @@ function DepositView({ shift, onNew }: { shift: Shift; onNew: () => void }) {
               {/* coins on several networks (USDT, USDC): name the network right at the address, the costliest mistake */}
               {(NETWORKS[shift.depositCoin]?.length ?? 0) > 1 && <b> on {nets(shift.depositCoin, shift.depositNetwork)} only</b>}
             </span>
-            <div className="xfield__row">
+            <div className="xfield__row xdep__row">
               <code className="xdep__addr">{shift.depositAddress}</code>
-              <Copy text={shift.depositAddress} />
+              {payUri ? (
+                // Most wallets accept a pasted payment link and fill in the amount; "Address only" is for the few that don't.
+                <span className="xcopies">
+                  <Copy text={payUri} label="Copy with amount" />
+                  <Copy text={shift.depositAddress} label="Address only" className="xcopy--ghost" />
+                </span>
+              ) : (
+                <Copy text={shift.depositAddress} />
+              )}
             </div>
           </div>
           {shift.depositMemo && (
